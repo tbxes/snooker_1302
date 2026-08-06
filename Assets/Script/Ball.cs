@@ -4,7 +4,7 @@ public enum BallColor
 {
     White,
     Red,
-    Ywllow,
+    Yellow,
     Green,
     Brown,
     Blue,
