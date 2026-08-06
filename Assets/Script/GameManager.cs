@@ -4,7 +4,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private int PlayerScore;
-    public int PlaqyerScore { get { return PlayerScore;  } set { PlayerScore = value; } }
+    public int playerScore { get { return PlayerScore;  } set { PlayerScore = value; } }
 
     public static GameManager instance;
 
