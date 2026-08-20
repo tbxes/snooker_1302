@@ -1,16 +1,23 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private int PlayerScore;
-    public int playerScore { get { return PlayerScore;  } set { PlayerScore = value; } }
+    public int playerScore { get { return PlayerScore; } set { PlayerScore = value; } }
 
     [SerializeField]
     private GameObject[] ballPositions;
 
     [SerializeField]
     private GameObject ballPrefab;
+
+    [SerializeField]
+    private GameObject cueBall;
+
+    [SerializeField]
+    private float xInput = 0f;
 
     public static GameManager instance;
 
@@ -31,7 +38,17 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        RotateBall();
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            ShootBall();
+
+        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
+            xInput = -0.1f;
+        else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+            xInput = 0.1f;
+        else
+            xInput = 0f;
     }
 
     private void SetBall(BallColor col, int i)
@@ -43,4 +60,18 @@ public class GameManager : MonoBehaviour
         Ball b = obj.GetComponent<Ball>();
         b.SetColorAndPoint(col);
     }
+
+    private void ShootBall()
+    {
+        Rigidbody rd = cueBall.GetComponent<Rigidbody>();
+        rd.AddRelativeForce(Vector3.forward * 50, ForceMode.Impulse);
+    }
+
+    private void RotateBall()
+    {
+        if (cueBall != null)
+            cueBall.transform.Rotate(new Vector3(0f, xInput, 0f));
+    }
+
+
 }
