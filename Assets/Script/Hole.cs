@@ -3,8 +3,17 @@ using UnityEngine;
 
 public class Hole : MonoBehaviour
 {
+
+    SnookerAudio audioManager;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<SnookerAudio>();
+    }
     private void OnTriggerEnter(Collider other)
     {
+
+        audioManager.PlaySFX(audioManager.hole);
+
         Ball b = other.GetComponent<Ball>();
 
         if (b != null)

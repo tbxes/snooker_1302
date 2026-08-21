@@ -23,35 +23,36 @@ public class Ball : MonoBehaviour, IPointerClickHandler
     private BallColor color;
 
     private MeshRenderer rd;
+    private SnookerAudio audioManager;
+
+    void Awake()
+    {
+        rd = GetComponent<MeshRenderer>();
+
+       
+        GameObject audioObj = GameObject.FindGameObjectWithTag("Audio");
+        if (audioObj != null)
+        {
+            audioManager = audioObj.GetComponent<SnookerAudio>();
+        }
+    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+      
+        if (audioManager != null && audioManager.ball != null)
+        {
+            audioManager.PlaySFX(audioManager.ball);
+        }
+
         Debug.Log(point);
         GameManager.instance.PlayerScore += point;
         Destroy(gameObject);
     }
 
-    void Awake()
-    {
-       rd = GetComponent<MeshRenderer>();
-    }
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void SetColorAndPoint(BallColor col)
     {
-        switch (col) 
+        switch (col)
         {
             case BallColor.White:
                 point = 0;
@@ -85,9 +86,6 @@ public class Ball : MonoBehaviour, IPointerClickHandler
                 point = 7;
                 rd.material.color = Color.black;
                 break;
-
         }
     }
 }
-
-
